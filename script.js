@@ -6,6 +6,11 @@ const form = document.getElementById('userform')
 const tablebody = document.getElementById('tablebody')
 const editIndexInput = document.getElementById('editindex')
 
+if(sessionStorage.getItem("users")){
+   users =  JSON.parse(sessionStorage.getItem("users"))
+   displayUsers()
+}
+
 // add entry to users
 
 form.addEventListener("submit",(e)=>{
@@ -21,14 +26,15 @@ form.addEventListener("submit",(e)=>{
         editIndexInput.value = ""
     }
     
-    
+   
     form.reset()
     console.log(users);
+     sessionStorage.setItem("users",JSON.stringify(users))
     displayUsers()
     
 })
 //Users should be listed in the table body 
-const displayUsers = ()=>{
+function displayUsers (){
     tablebody.innerHTML = ""
     users.forEach((user,index)=>{
         tablebody.innerHTML += `
@@ -56,6 +62,7 @@ const editUser = (index)=>{
 const deleteUser = (index)=>{
     if(confirm(`Are you sure that you want to delete this Data?`)){
         users.splice(index,1)
+        sessionStorage.setItem("users",JSON.stringify(users))
         displayUsers()
     }
 }
